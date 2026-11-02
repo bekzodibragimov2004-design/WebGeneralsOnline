@@ -1,0 +1,18 @@
+# Compiled binaries and test output
+/relay
+/relay.exe
+/bin/
+*.exe
+*.exe~
+*.test
+*.out
+*.prof
+
+# Local certificates and keys (mkcert output)
+*.pem
+*.key
+*.crt
+
+# Local runtime data, should a directory be pointed here
+/crash-logs/
+crash-*.json

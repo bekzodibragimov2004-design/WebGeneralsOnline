@@ -13,12 +13,13 @@
 - `docs/NETWORK.md`: GO's login, API, realtime traffic and anti-cheat, from source. Not yet confirmed against the live service.
 - `docs/DETERMINISM.md`: how the native client does floating point, kept as reference now that Route A is dropped.
 - `web/`: password gate, resumable download, launch page, error and crash screens. Tested against a mock server only, with no engine yet.
+- `relay/`: password gate, session cookies, asset and engine serving, crash reports. Real relaying and the GO API proxy aren't built yet.
 
 ## In progress
 
 - Native client build.
 - `docs/WASM_PORT.md`, the plan for the headless WASM build.
-- `relay/`.
+- Security review of `relay/`, and the first real end-to-end test of `relay/` and `web/` with game data.
 
 ## Blocked
 
