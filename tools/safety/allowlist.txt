@@ -1,0 +1,14 @@
+# Files of a forbidden type that came from upstream's GPL source tree, not from game data.
+# Format: <git blob sha> <path>. A changed file no longer matches and must be reviewed.
+7cd0b7a2cf8a490087f023720808205426e3141c Core/Libraries/Source/WWVegas/WW3D2/RequiredAssets/AddProjectorGradient.tga
+02e9f132baee673d3982eaedaa68f676153add16 Core/Libraries/Source/WWVegas/WW3D2/RequiredAssets/MultProjectorGradient.tga
+c5d41cd0224361e28c4f79a4173741bdcb1ba1c5 Core/Libraries/Source/WWVegas/WW3D2/RequiredAssets/ShatterPlanes0.w3d
+974d3a232d8fb3090bdff06e885750a1e0fb2fd0 Core/Libraries/Source/WWVegas/WW3D2/RequiredAssets/w3d_missing_texture.tga
+2995a4d0e74917fd3e1383c577d0fc301fff1b04 Core/Tools/Autorun/English/Present.wav
+2995a4d0e74917fd3e1383c577d0fc301fff1b04 Core/Tools/Autorun/English/Rock-n-Roll.wav
+2995a4d0e74917fd3e1383c577d0fc301fff1b04 Core/Tools/Autorun/mouse.wav
+498df9d52f3964dd09ac0a18b942dd3c0aceaf45 Core/Tools/W3DView/Res/Light.w3d
+b279f1f0bd5fef8152bb54747cd58ff6d713adba Core/Tools/W3DView/Res/cursor.tga
+3fbb5aead7457a472fcafc098e491b49d417d6ad Core/Tools/W3DView/Res/grab.tga
+9886b8e9eafd8c4c73c012bcd4bbd580e5f8c801 Core/Tools/W3DView/Res/orbit.tga
+393f0f4c47eb7c644f974bb63eb3151a2527a0c4 Core/Tools/W3DView/Res/zoom.tga

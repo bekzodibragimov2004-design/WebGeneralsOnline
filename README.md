@@ -1,3 +1,19 @@
+# WebGeneralsOnline
+
+A browser build of the [Generals Online](https://github.com/GeneralsOnlineDevelopmentTeam/GameClient) client for *Command & Conquer: Generals – Zero Hour*, for desktop Chrome on Windows and macOS. **It is in early development and isn't playable yet.** See [STATUS.md](STATUS.md).
+
+**Game data is not included. Players must own the game.**
+
+EA has not endorsed and does not support this product. All trademarks are the property of their respective owners.
+
+The code is licensed under GPL-3.0 with the additional terms in [LICENSE.md](LICENSE.md).
+
+Upstream projects: [GeneralsOnlineDevelopmentTeam/GameClient](https://github.com/GeneralsOnlineDevelopmentTeam/GameClient), [GeneralsOnlineDevelopmentTeam/Launcher](https://github.com/GeneralsOnlineDevelopmentTeam/Launcher), [OKJID/GameClient](https://github.com/OKJID/GameClient), [Okladnoj/GeneralsGameCode](https://github.com/Okladnoj/GeneralsGameCode), [TheSuperHackers/GeneralsGameCode](https://github.com/TheSuperHackers/GeneralsGameCode), [TheSuperHackers/GeneralsReplays](https://github.com/TheSuperHackers/GeneralsReplays), [fbraz3/GeneralsX](https://github.com/fbraz3/GeneralsX). Exact commits are in [UPSTREAM.md](UPSTREAM.md).
+
+---
+
+The upstream README continues below.
+
 [![GitHub Release](https://img.shields.io/github/v/release/TheSuperHackers/GeneralsGameCode?include_prereleases&sort=date&display_name=tag&style=flat&label=Release)](https://github.com/TheSuperHackers/GeneralsGameCode/releases)
 ![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/TheSuperHackers/GeneralsGameCode/3)
 ![GitHub milestone details](https://img.shields.io/github/milestones/progress-percent/TheSuperHackers/GeneralsGameCode/1)

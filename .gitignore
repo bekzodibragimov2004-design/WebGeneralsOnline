@@ -66,3 +66,16 @@ build.ninja
 ## Python
 __pycache__/
 *.pyc
+# WebGeneralsOnline: secrets and EA game data must never be committed (see tools/safety/)
+.env
+.env.*
+!.env.example
+*.big
+*.bik
+*.csf
+*.dds
+*.map
+*.mp3
+*.tga
+*.w3d
+*.wav

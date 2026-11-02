@@ -1,0 +1,39 @@
+name: Web safety checks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  safety:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Test the safety check
+        run: node --test "tools/safety/*.test.mjs"
+
+      - name: Check every tracked file
+        env:
+          SAFETY_ENV_VALUES: ${{ secrets.SAFETY_ENV_VALUES }}
+        run: node tools/safety/check.mjs --all
+
+      - name: Check every pushed commit
+        if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
+        env:
+          SAFETY_ENV_VALUES: ${{ secrets.SAFETY_ENV_VALUES }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: node tools/safety/check.mjs --range "$BEFORE..$AFTER"
