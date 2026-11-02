@@ -79,3 +79,5 @@ __pycache__/
 *.tga
 *.w3d
 *.wav
+!.githooks/
+!.githooks/pre-commit
