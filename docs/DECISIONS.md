@@ -20,6 +20,10 @@ CI has no `.env`, so comparing against its values needs them stored as the `SAFE
 
 The brief names the `win32` preset, but upstream's `ci.yml` notes that only the vcpkg presets can build GeneralsMD, and that is what its CI builds.
 
+## 2026-11-03: Asset tool also takes the base Generals folder
+
+Zero Hour isn't standalone: `Win32BIGFileSystem.cpp:60-70` loads every `.big` under its own folder and then every `.big` under the Generals install. So the tool takes `--generals-dir` as well as `--game-dir`, and stores base archives under `Generals/` so names can't collide. The engine port must mount that folder.
+
 ## 2026-11-03: One shared contract for web pieces
 
 The asset tool, server and web shell are built in parallel, so their shared formats and routes live in `docs/WEB_CONTRACT.md`.

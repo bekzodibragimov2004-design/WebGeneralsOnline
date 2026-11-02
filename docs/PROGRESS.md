@@ -7,3 +7,4 @@
 - Added `docs/WEB_CONTRACT.md`, the shared interface for the asset tool, server and web shell.
 - Added `.env.example`, `UPSTREAM.md`, `STATUS.md` and `docs/DECISIONS.md`.
 - Created the public GitHub repo, pushed `main`, and disabled upstream's workflows there.
+- Added `tools/ingest-assets`, which copies the needed game files and writes the manifest. Its 33 tests use synthetic files; it hasn't run against a real install yet.
