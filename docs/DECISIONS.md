@@ -24,6 +24,12 @@ The brief names the `win32` preset, but upstream's `ci.yml` notes that only the 
 
 Zero Hour isn't standalone: `Win32BIGFileSystem.cpp:60-70` loads every `.big` under its own folder and then every `.big` under the Generals install. So the tool takes `--generals-dir` as well as `--game-dir`, and stores base archives under `Generals/` so names can't collide. The engine port must mount that folder.
 
+A Steam install needs no extra flag, because it holds the base archives in `ZH_Generals/` inside the game folder, and they load in the engine's first pass.
+
+## 2026-11-03: Native runs set the per-user `InstallPath`
+
+The engine finds base Generals through the `EA Games\Generals` registry key, checking the current user before the machine. Steam's install script doesn't write that key. Native runs set it under `HKCU`, pointing at `ZH_Generals`, which is what upstream's `check-replays.yml` does too. It needs no admin rights and is easy to undo.
+
 ## 2026-11-03: GO accounts are signed in by hand
 
 GO has no username and password login: players sign in on GO's website through Steam, Discord or GameReplays. So `GO_ACCOUNT_*` is gone from `.env.example`, and missing values there are no longer a stop condition. The owner signs in, and tests reuse the saved session where GO's token rules allow it.

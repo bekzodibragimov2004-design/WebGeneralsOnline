@@ -14,13 +14,13 @@ The shared interface between `tools/ingest-assets`, `relay/` and `web/`. Change 
   "totalBytes": 123456,
   "files": [
     { "path": "INIZH.big", "size": 1234, "sha256": "<64 lowercase hex chars>" },
-    { "path": "Generals/INI.big", "size": 1234, "sha256": "<64 lowercase hex chars>" }
+    { "path": "ZH_Generals/INI.big", "size": 1234, "sha256": "<64 lowercase hex chars>" }
   ]
 }
 ```
 
 - `path` is relative, uses forward slashes, keeps the game's original case, and never contains `..`.
-- Files from the base Generals install sit under `Generals/`, because Zero Hour also loads that game's archives.
+- Zero Hour also loads the base Generals archives. A Steam install already holds them under `ZH_Generals/`, and they keep that path. Archives from a separate install (`--generals-dir`) sit under `Generals/`.
 - `files` is sorted by `path`, compared byte by byte, so the same input gives the same output.
 - `version` changes whenever any file's content changes.
 
