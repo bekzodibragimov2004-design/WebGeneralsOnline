@@ -58,6 +58,14 @@ The brief says every GeneralsReplays corpus replay must match, and one mismatch 
 
 Deterministic math is in none of GO's public refs or its current release. Route A hasn't failed: it's unmeasured, and `docs/DETERMINISM.md` rates it feasible at medium confidence. Its whole purpose is play against native clients, which GO's anti-cheat rule blocks and which GO's developers reportedly asked another client to turn off. So the math work waits for GO's answer. Headless WASM work continues, since every outcome needs it.
 
+## 2026-11-03: Native crossplay is out of scope for now
+
+After talking with GO, the owner decided the web build runs its own GO version, uses `client_id` `custom_third_party_client`, sends `anticheat_id` `-1`, and stays apart from Windows players through its version mismatch. This replaces the brief's goal of playing native clients, and so its P1 and section 5. Route A is dropped, stop condition 2 no longer applies, and stop condition 3 isn't triggered. It replaces the three entries above about Route A, Route B and treating web against native as a possible stop.
+
+Determinism now means all web clients on one build match each other, on Windows x64 and macOS ARM64. The pass test: a replay recorded by the web client plays back with matching CRCs, and gives identical per-frame CRCs on both CPU types. The retail corpus stays a parser test and a negative control. If GO ever ships deterministic math, that can be merged later.
+
+Also decided: many players behind one relay IP is fine, two test accounts and short automated sessions are fine, GO's `:2087` test environment is open for them, test matches keep `track_stats` off, and a web build isn't an "unauthorized modification". Missing hardware ids will flag accounts with no exemption, and the web build still never invents them.
+
 ## 2026-11-03: One shared contract for web pieces
 
 The asset tool, server and web shell are built in parallel, so their shared formats and routes live in `docs/WEB_CONTRACT.md`.

@@ -6,11 +6,11 @@ What the Generals Online (GO) client and services do on the network, and what a 
 
 - **Login** is a browser sign-in with a one-time code. The player signs in through Steam, Discord or GameReplays on GO's website while the client polls. There is no username and password login, so the brief's `GO_ACCOUNT_*` values have nowhere to go.
 - **Realtime** is a WebSocket to GO's service for lobby, chat and signalling, plus a full peer-to-peer mesh of GameNetworkingSockets (GNS) connections over UDP with ICE, STUN and Cloudflare TURN. Lockstep traffic goes peer to peer. There is no game server.
-- **Web against native on live GO is blocked for an honest client.** Published server code answers `417` when a client's declared anti-cheat differs from the lobby's. The honest value for a web build is "none", and the official client never sends it. Only GO can change that.
-- **Login itself looks possible.** The published service has a `custom_third_party_client` id that gets full game client access. Browser against browser in a no-anti-cheat lobby looks possible too, once GO says what a web build should do about the version check.
-- **No GO rule found forbids automated testing or test accounts.** None permits them either, and the login needs a human. See [Terms](#6-terms).
+- **Web against native on live GO is off, by decision.** Published server code answers `417` when a client's declared anti-cheat differs from the lobby's, and the honest value for a web build is "none". The owner accepts that: the web build runs its own GO version and plays other web clients.
+- **Login itself looks possible.** The published service has a `custom_third_party_client` id that gets full game client access. Browser against browser in a no-anti-cheat lobby looks possible too.
+- **Two test accounts and short automated sessions are acceptable**, the owner reports after talking with GO. The login still needs a human.
 
-All of this is unconfirmed against the live service. See [What only a live test or GO can confirm](#8-what-only-a-live-test-or-go-can-confirm).
+Findings from source are unconfirmed against the live service. See [section 8](#8-decisions-after-talking-with-go-and-what-a-live-test-must-confirm).
 
 This document covers what the checks are and what an honest client gets from them. It deliberately does not cover ways around them. Details of how GO enforces its checks are also left out, because GO's `SECURITY.md` asks for such findings to go to GO privately.
 
@@ -142,7 +142,7 @@ On the stock client, `NeedsUpdate` means a mandatory update that downloads an ex
 
 **A WASM build cannot honestly pass this.** No native exe exists to hash, so an honest value matches neither reference and the answer will be `NeedsUpdate`. The web client must never fetch or run that patcher.
 
-This is GO's update and integrity gate, so what a web build does about it is a question for GO.
+**Decision:** the web build runs its own GO version. It treats `NeedsUpdate` as expected and never fetches the patcher, and its version mismatch keeps it apart from Windows players.
 
 ### Identity fields a web build can honestly fill
 
@@ -155,7 +155,7 @@ This is GO's update and integrity gate, so what a web build does about it is a q
 
 **Do not send `gen_online_60hz` or `gen_online_30hz`.** Those name GO's own client, and the brief requires the web build to identify itself. `LICENSE.md:617-618` also says modified versions must be marked as such and not identified as the original.
 
-There is no free-text client field, and no id says "web". `custom_third_party_client` is the closest honest value. GO could add a dedicated id with a one-line change (`svc/Constants.cs:349-368`).
+There is no free-text client field, and no id says "web". `custom_third_party_client` is the closest honest value. **Decision:** the web build uses it.
 
 Other published precedent: `genhub` and `superhackers_community_patch_client` are also known ids, and GO's 2026-09-28 patch notes fix a bug for the GenHub launcher **[web]**. GO clearly expects some outside clients.
 
@@ -297,7 +297,7 @@ The macOS fork in the repo's `okjid` remote isn't a template for identity or ant
 
 The engine's default code paths don't produce an honest value for a web build, so the port must set these explicitly:
 
-- Send `anticheat_id` `-1`, unless GO says otherwise in writing.
+- Send `anticheat_id` `-1`. There is no anti-cheat for now, by decision.
 - Send nothing for the hardware id fields and the code hash, rather than invented values.
 
 ---
@@ -382,14 +382,14 @@ The site has no terms of service page in its navigation. It has a Code of Conduc
 
 ### What this means
 
-- **Nothing found forbids automated testing or test accounts, and nothing found permits them.**
-- **"Unauthorized modifications" is the closest rule and it is ambiguous.** A web build could count as one. It is meant for cheating, but it does not say so.
+- **GO's published pages neither forbid nor permit automated testing.** The owner reports that two test accounts and short automated sessions are acceptable.
+- **"Unauthorized modifications" means gaining an unfair advantage**, the owner reports after talking with GO, so a web build isn't one.
 - **The login is not built for automation.** Each sign-in needs a real Steam, Discord or GameReplays identity at the provider's page. The two test accounts therefore have to be such identities, and the owner signs in by hand. A username and password cannot be sent to any GO endpoint, and entering a provider password stays with the owner.
 - **The brief's limits still stand:** no load testing, no rapid-fire automated logins, at most two accounts, and short test matches (brief 1.7).
 
 ### Testing without touching live GO
 
-Services is public and can be self-hosted. A debug build accepts any login code, creates `DEV_ACCOUNT_n` users (`svc/Controllers/CheckLogin/CheckLoginController.cs:121-155`), returns fake TURN credentials (`svc/Constants.cs:2623-2627`), and skips the CRC checks (`svc/Controllers/VersionCheck/VersionCheckController.cs:185-193`). It needs MariaDB and .NET 10. That is our own server, so it raises none of the concerns above, and it can carry all automated relay tests. Reserve live GO for short attended runs after the owner has heard from GO.
+Services is public and can be self-hosted. A debug build accepts any login code, creates `DEV_ACCOUNT_n` users (`svc/Controllers/CheckLogin/CheckLoginController.cs:121-155`), returns fake TURN credentials (`svc/Constants.cs:2623-2627`), and skips the CRC checks (`svc/Controllers/VersionCheck/VersionCheckController.cs:185-193`). It needs MariaDB and .NET 10. That is our own server, so it raises none of the concerns above, and it can carry all automated relay tests. Use it for anything too heavy for a shared service. GO's `:2087` test environment is open for short automated sessions, and live GO is for short attended runs.
 
 ---
 
@@ -399,7 +399,7 @@ These requirements fit the routes in `docs/WEB_CONTRACT.md`, `/go-api/*` and `/r
 
 ### `/go-api/*`: HTTP proxy
 
-- Forward to `https://api.playgenerals.online/env/prod/contract/1/*` only by default. Keep `api-ru` and the `:2087` test host behind configuration, and the test host off until GO agrees. Never accept a target from the client: this guards against SSRF.
+- Forward to `https://api.playgenerals.online/env/prod/contract/1/*` only by default. Keep `api-ru` and the `:2087` test host behind configuration. Automated tests use the test host. Never accept a target from the client: this guards against SSRF.
 - Support GET, POST, PUT and DELETE. Pass bodies through unchanged and pass status codes through exactly. The client depends on `200`, `201`, `205`, `401`, `404`, `406`, `417` and `423`.
 - Send `Host` for the real API host, because `ws_uri` is built from it (`svc/Program.cs:1154-1158`). Do not rewrite `ws_uri` in the body. Have the web client route it to `/relay`.
 - Send an honest `User-Agent` naming the web build, and no client-supplied forwarding headers.
@@ -454,7 +454,22 @@ An open UDP relay is an attack tool, and GO's rules ban attacks on its service.
 
 ---
 
-## 8. What only a live test or GO can confirm
+## 8. Decisions after talking with GO, and what a live test must confirm
+
+### Decisions
+
+The owner spoke with GO and settled these on 2026-11-03. This records what the owner reported, some of it GO's answers and some the owner's own decisions. It isn't a statement from GO.
+
+| Question | Decision |
+|---|---|
+| Client id | `custom_third_party_client` |
+| `VersionCheck` | The web build runs its own GO version. The mismatch keeps it apart from Windows players, and that's accepted. |
+| `anticheat_id` | None for now, so `-1` |
+| Missing hardware ids and an empty module list | Accounts get flagged, with no exemption for test accounts. The web build still sends no invented values. |
+| Many players behind one relay IP | Acceptable |
+| Two test accounts, short automated sessions, the `:2087` test environment | Acceptable, and the test environment is open |
+| `track_stats` in test matches | Off |
+| Is a web build an "unauthorized modification"? | No. That rule is about gaining an unfair advantage. |
 
 ### Live test, by the owner, briefly
 
@@ -467,17 +482,4 @@ An open UDP relay is an attack tool, and GO's rules ban attacks on its service.
 - Refresh token lifetime, presigned upload hosts, and real datagram sizes through WebTransport.
 - Whether a web peer can complete the full mesh check.
 
-### Questions only GO can answer
-
-The owner handles contact (brief 1.7).
-
-1. May a web build use `custom_third_party_client` on live, or will GO add its own id?
-2. What should a web build do about `VersionCheck`, given it has no exe?
-3. What `anticheat_id` should it send? Is there any way for a web build and native players to share a lobby, for example hosts opting in?
-4. Will missing hardware ids and an empty module list get accounts flagged or banned? Can test accounts be exempted?
-5. Are many players behind one relay IP acceptable?
-6. Are two test accounts and short automated or scripted sessions acceptable? Is the `:2087` test environment open to this?
-7. Should test matches keep `track_stats` off so ladders stay clean?
-8. Is a web build an "unauthorized modification" under the Code of Conduct?
-
-**Web against native also needs identical simulation results.** Even with GO's agreement, the two builds must stay in lockstep (`GeneralsMD/Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/ScoreScreen.cpp:1997`). This document does not assess that.
+**Web clients must still stay in lockstep with each other** (`GeneralsMD/Code/GameEngine/Source/GameClient/GUI/GUICallbacks/Menus/ScoreScreen.cpp:1997`). `docs/DECISIONS.md` covers what that now requires.

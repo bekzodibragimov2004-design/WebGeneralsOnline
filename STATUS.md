@@ -1,6 +1,6 @@
 # Status
 
-**Current phase:** P0 (Setup), with early P3 pieces running in parallel.
+**Current phase:** P2 (Headless WASM simulation), with the native build finishing P0 and early P3 pieces running in parallel. P1 is settled by decision: the web build runs its own GO version and doesn't play native Windows clients. See `docs/DECISIONS.md`.
 
 ## Works
 
@@ -11,7 +11,7 @@
 
 - `tools/ingest-assets`, tested on synthetic files and on one real Steam install (122 files, 2.1 GiB).
 - `docs/NETWORK.md`: GO's login, API, realtime traffic and anti-cheat, from source. Not yet confirmed against the live service.
-- `docs/DETERMINISM.md`: how the native client does floating point. Route A is feasible but unmeasured, and Route B isn't available.
+- `docs/DETERMINISM.md`: how the native client does floating point, kept as reference now that Route A is dropped.
 
 ## In progress
 
@@ -21,12 +21,11 @@
 
 ## Blocked
 
-- **Web against native on live GO.** GO's published server code refuses a lobby join when the declared anti-cheat differs, and a browser can't run anti-cheat. An honest web client also can't pass GO's version check. Only GO can change these, so the owner needs to ask the questions in `docs/NETWORK.md` section 8. Browser against browser looks possible but is unconfirmed.
 - **`SITE_PASSWORD` isn't set yet.** It's needed once the site runs for real.
 - **The secret-value check in CI** has nothing to compare until the owner sets the `SAFETY_ENV_VALUES` Actions secret.
 
 ## Next
 
-1. Build the native GO client.
-2. Port the headless simulation to WASM, which Route A's test needs.
-3. Record the native replay baseline once the native build finishes, then decide the determinism route (P1).
+1. Finish the native build, and confirm it runs against the Steam data.
+2. Write the plan for the headless WASM build, then build it.
+3. Show that web clients match each other: replays recorded in WASM, compared on x64 and ARM64.

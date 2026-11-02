@@ -1,5 +1,7 @@
 # Floating-point determinism: native GO client against wasm32
 
+**Decision, 2026-11-03:** the owner spoke with GO, and the web build will run its own GO version and not play native Windows clients. Route A is therefore not being pursued. This document stays as the reference on the native client. The wasm differences in section 6.3 and the replay check in section 5 still matter for web clients matching each other.
+
 Researched 2026-11-03. No compiler was installed, so nothing here was built or run. The game was not launched.
 
 Line numbers refer to GO commit 6ff4044. Everything committed since then leaves the cited source files unchanged.
