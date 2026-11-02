@@ -11,11 +11,11 @@
 
 - `tools/ingest-assets`, tested on synthetic files and on one real Steam install (122 files, 2.1 GiB).
 - `docs/NETWORK.md`: GO's login, API, realtime traffic and anti-cheat, from source. Not yet confirmed against the live service.
+- `docs/DETERMINISM.md`: how the native client does floating point. Route A is feasible but unmeasured, and Route B isn't available.
 
 ## In progress
 
 - Native client build.
-- `docs/DETERMINISM.md`, researched from the source.
 - `docs/WASM_PORT.md`, the plan for the headless WASM build.
 - `web/` and `relay/`.
 

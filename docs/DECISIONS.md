@@ -50,6 +50,14 @@ The brief asks for one socket per browser client. GameNetworkingSockets opens on
 
 GO's `SECURITY.md` asks for security findings to be reported privately. Public docs say what an honest client faces and leave out details of how checks are enforced. The owner has the full notes outside version control.
 
+## 2026-11-03: Route A's pass test uses replays the reference client can pass
+
+The brief says every GeneralsReplays corpus replay must match, and one mismatch fails Route A. That corpus was recorded by 2005 retail clients at 30 logic frames per second. GO runs at 60 with `RETAIL_COMPATIBLE_CRC` off, so GO's own client can't pass it either. The test becomes: replays recorded by the exact reference client, kept only if that client replays them cleanly, with coverage of every faction and long matches. One mismatch on that set still fails. The retail corpus stays as a parser test and a negative control. The brief's 20 fresh AI replays are part of the new set.
+
+## 2026-11-03: Route B isn't available, and Route A isn't tested first
+
+Deterministic math is in none of GO's public refs or its current release. Route A hasn't failed: it's unmeasured, and `docs/DETERMINISM.md` rates it feasible at medium confidence. Its whole purpose is play against native clients, which GO's anti-cheat rule blocks and which GO's developers reportedly asked another client to turn off. So the math work waits for GO's answer. Headless WASM work continues, since every outcome needs it.
+
 ## 2026-11-03: One shared contract for web pieces
 
 The asset tool, server and web shell are built in parallel, so their shared formats and routes live in `docs/WEB_CONTRACT.md`.
