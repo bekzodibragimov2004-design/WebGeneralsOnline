@@ -24,6 +24,26 @@ The brief names the `win32` preset, but upstream's `ci.yml` notes that only the 
 
 Zero Hour isn't standalone: `Win32BIGFileSystem.cpp:60-70` loads every `.big` under its own folder and then every `.big` under the Generals install. So the tool takes `--generals-dir` as well as `--game-dir`, and stores base archives under `Generals/` so names can't collide. The engine port must mount that folder.
 
+## 2026-11-03: GO accounts are signed in by hand
+
+GO has no username and password login: players sign in on GO's website through Steam, Discord or GameReplays. So `GO_ACCOUNT_*` is gone from `.env.example`, and missing values there are no longer a stop condition. The owner signs in, and tests reuse the saved session where GO's token rules allow it.
+
+## 2026-11-03: Web against native isn't treated as a stop yet
+
+GO's published code answers `417` when anti-cheat values differ, and an honest web client declares none. That blocks browser against native on live GO unless GO changes it. It comes close to stop condition 3, but it's unconfirmed on the live service and browser against browser still looks possible, so work continues while the owner asks GO. The web build sends `client_id` `custom_third_party_client` and `anticheat_id` `-1`, and never claims more than it does.
+
+## 2026-11-03: Automated online tests use a self-hosted GO service
+
+GO publishes its service under AGPL-3.0, and a debug build creates dev accounts. Automated relay and lobby tests run against that, and live GO is kept for short attended runs after the owner has heard from GO. This also respects section 1.7.
+
+## 2026-11-03: One UDP socket per ICE session
+
+The brief asks for one socket per browser client. GameNetworkingSockets opens one per ICE session and a mesh has one session per peer, so sharing a socket would mean changing how it separates traffic. The relay caps each client at about 8 sockets, and each client still appears as its own endpoints.
+
+## 2026-11-03: Enforcement details stay out of public docs
+
+GO's `SECURITY.md` asks for security findings to be reported privately. Public docs say what an honest client faces and leave out details of how checks are enforced. The owner has the full notes outside version control.
+
 ## 2026-11-03: One shared contract for web pieces
 
 The asset tool, server and web shell are built in parallel, so their shared formats and routes live in `docs/WEB_CONTRACT.md`.
