@@ -6,3 +6,4 @@
 - Added the safety layers: `.gitignore` rules, pre-commit hook, `Web safety checks` workflow, and `tools/safety/check.mjs` with tests.
 - Added `docs/WEB_CONTRACT.md`, the shared interface for the asset tool, server and web shell.
 - Added `.env.example`, `UPSTREAM.md`, `STATUS.md` and `docs/DECISIONS.md`.
+- Created the public GitHub repo, pushed `main`, and disabled upstream's workflows there.
