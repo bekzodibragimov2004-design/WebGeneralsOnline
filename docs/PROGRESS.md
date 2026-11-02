@@ -11,3 +11,4 @@
 - Added `docs/NETWORK.md` from GO's client, service and plugin source, and removed the GO account keys from `.env.example`.
 - Added `docs/DETERMINISM.md`: the client mixes SSE2 and x87, Route B isn't available, and all 15 corpus replays hold CRC data but GO can't pass them. Nothing has been measured on a build yet.
 - Recorded the owner's decisions after talking with GO: the web build runs its own version and doesn't play native clients, so Route A is dropped.
+- Added `web/`, the shell with the password gate, resumable download, launch page, and error and crash screens. 134 unit tests and one Chrome end-to-end test pass against a mock server. It hasn't run against the real relay, on macOS, or with an engine yet.

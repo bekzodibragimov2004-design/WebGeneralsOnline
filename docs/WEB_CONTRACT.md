@@ -35,9 +35,9 @@ All served over HTTPS by the single server binary in `relay/`.
 | `GET /api/session` | No | `204` if the cookie is valid, otherwise `401`. |
 | `POST /api/logout` | Yes | `204` and clears the cookie. |
 | `GET /assets/manifest.json` | Yes | The manifest. |
-| `GET /assets/files/<path>` | Yes | One game file. Supports HTTP `Range`, `ETag` and `If-Range`. |
+| `GET /assets/files/<path>` | Yes | One game file. Supports HTTP `Range`, `ETag` and `If-Range`. Never content-encoded, so byte ranges stay valid. |
 | `GET /engine/*` | Yes | Engine `.wasm` and `.js`. Brotli or gzip when the client accepts them. |
-| `POST /api/crash` | Yes | Crash report JSON, stored in a local log directory. Maximum 256 KB. |
+| `POST /api/crash` | Yes | Crash report JSON, stored in a local log directory. Maximum 256 KB. `204` when stored. |
 | `/go-api/*` | Yes | Proxy to GO's HTTP API. See `docs/NETWORK.md`. |
 | `/relay` | Yes | WebTransport and WebSocket relay. See `docs/NETWORK.md`. |
 
@@ -72,4 +72,4 @@ Reports never contain passwords, tokens or cookies.
 
 ## Browser storage
 
-The shell stores game files in OPFS under `/game/<path>` and the installed manifest at `/game/manifest.json`. Player data goes under `/player/`, and an update never touches it.
+The shell stores game files in OPFS under `/game/<path>` and the installed manifest at `/game/manifest.json`. Files still downloading stay under `/partial/` until they verify. Player data goes under `/player/`, and an update never touches it.
