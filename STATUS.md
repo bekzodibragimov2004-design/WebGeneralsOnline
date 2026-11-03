@@ -17,7 +17,7 @@
 
 ## In progress
 
-- Native client build.
+- First run of the native client against the Steam data. It builds and links (`docs/NATIVE_BUILD.md`).
 - `docs/WASM_PORT.md`, the plan for the headless WASM build.
 - Security review of `relay/`, and the first real end-to-end test of `relay/` and `web/` with game data.
 
