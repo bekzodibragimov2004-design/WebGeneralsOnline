@@ -66,6 +66,10 @@ Determinism now means all web clients on one build match each other, on Windows 
 
 Also decided: many players behind one relay IP is fine, two test accounts and short automated sessions are fine, GO's `:2087` test environment is open for them, test matches keep `track_stats` off, and a web build isn't an "unauthorized modification". Missing hardware ids will flag accounts with no exemption, and the web build still never invents them.
 
+## 2026-11-03: Native dev runs never use `crashpad_handler.exe`
+
+The native client starts Sentry with GO's DSN on every launch, including `-headless`. With `crashpad_handler.exe` beside the exe, it would contact GO's Sentry on every run and upload any crash, which isn't acceptable for development builds. The build puts that file next to the exe, so native runs use a separate run folder without it, as `docs/NATIVE_BASELINE.md` describes. The web build leaves Sentry out entirely.
+
 ## 2026-11-03: One shared contract for web pieces
 
 The asset tool, server and web shell are built in parallel, so their shared formats and routes live in `docs/WEB_CONTRACT.md`.

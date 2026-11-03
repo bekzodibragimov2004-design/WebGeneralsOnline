@@ -13,11 +13,11 @@
 - `docs/NETWORK.md`: GO's login, API, realtime traffic and anti-cheat, from source. Not yet confirmed against the live service.
 - `docs/DETERMINISM.md`: how the native client does floating point, kept as reference now that Route A is dropped.
 - `web/`: password gate, resumable download, launch page, error and crash screens. Tested against a mock server only, with no engine yet.
+- Native client: builds, loads the Steam data and starts simulating headless (`docs/NATIVE_BASELINE.md`). No replay reaches its end yet, and no windowed session has run.
 - `relay/`: password gate, session cookies, asset and engine serving, crash reports. Real relaying and the GO API proxy aren't built yet.
 
 ## In progress
 
-- First run of the native client against the Steam data. It builds and links (`docs/NATIVE_BUILD.md`).
 - `docs/WASM_PORT.md`, the plan for the headless WASM build.
 - Security review of `relay/`, and the first real end-to-end test of `relay/` and `web/` with game data.
 
@@ -28,6 +28,5 @@
 
 ## Next
 
-1. Finish the native build, and confirm it runs against the Steam data.
-2. Write the plan for the headless WASM build, then build it.
-3. Show that web clients match each other: replays recorded in WASM, compared on x64 and ARM64.
+1. Finish the review of the plan for the headless WASM build, then build it.
+2. Show that web clients match each other: replays recorded in WASM, compared on x64 and ARM64.
